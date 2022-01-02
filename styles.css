@@ -1,28 +1,42 @@
 * {
     box-sizing: border-box;
     text-align: center;
-    --square-border: 2px;
+
+    --total-length: 960px;
+    --squares: 16;
+    --square-size: calc(var(--total-length) / var(--squares));
 }
 
 .background-box {
+    box-sizing: content-box;
     background-color: rgb(202, 202, 202);
     padding: 50px;
+    min-width: var(--total-length);
+    min-height: var(--total-length);
     border: 5px solid black;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .container {
-    border: var(--square-border) solid black;
+    box-sizing: content-box; /* width+height calc doesn't include border */
+    border: 2px solid black;
+    width: var(--total-length);
+    height: var(--total-length);
+}
+
+button {
+    margin-bottom: 40px;
+    width: 5rem;
+    height: 2rem;
 }
 
 .square {
     background-color: white;
     float: left;
-    width: 50px;
-    height: 50px;
-    border: var(--square-border) solid black;
+    /* border: var(--square-border) solid black; */
 }
 
 .hover {
