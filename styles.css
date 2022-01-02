@@ -33,6 +33,10 @@ button {
     height: 2rem;
 }
 
+.borders-button {
+    border-width: 4px;
+}
+
 .square {
     background-color: white;
     float: left;
