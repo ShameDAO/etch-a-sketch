@@ -14,5 +14,21 @@ for (let i = 0; i < numSquares; i++) {
         squareDiv.style.clear = "left";
     }
 
+    
     container.appendChild(squareDiv);
+
+}
+
+let squares = document.querySelectorAll(".square");
+squares.forEach((square) => {
+    square.addEventListener("mouseover", hover);
+    // square.addEventListener("mouseout", unhover);
+});
+
+function hover() {
+    this.classList.add("hover");
+}
+
+function unhover() {
+    this.classList.remove("hover");
 }
