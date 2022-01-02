@@ -1,13 +1,19 @@
 let pxLength = 960;
 let length = 16;
 let height = 16;
-
 let squareBorderSize = 2;
 let borders = true;
+
+let rainbow = false;
+let transitionInterval = 20;
+let rgb = [255, 0, 0]
+
+let sketch = true;
 
 const container = document.querySelector(".container");
 const resetBtn = document.querySelector(".reset-button");
 const bordersBtn = document.querySelector(".borders-button")
+const rainbowBtn = document.querySelector(".rainbow-button")
 
 let squareDiv;
 
@@ -16,7 +22,24 @@ let squaresNodeList;
 buildSquares(length, height, pxLength);
 
 resetBtn.addEventListener("click", resetSketch);
-bordersBtn.addEventListener("click", toggleBorders);
+bordersBtn.addEventListener("click", () => {
+    toggleBorders();
+    if (borders) {
+        bordersBtn.style.borderWidth = "4px";
+    } else {
+        bordersBtn.style.borderWidth = "1px";
+    }
+    
+});
+rainbowBtn.addEventListener("click", () => {
+    toggleRainbow();
+    if (rainbow) {
+        rainbowBtn.style.borderWidth = "4px";
+    } else {
+        rainbowBtn.style.borderWidth = "1px";
+    }
+});
+
 
 function buildSquares(length, height, pxLength) {
 
@@ -49,7 +72,48 @@ function buildSquares(length, height, pxLength) {
 }
 
 function hover() {
-    this.classList.add("hover");
+    if (rainbow) {
+        this.style.backgroundColor = `rgb(
+                ${rgb[0]},
+                ${rgb[1]},
+                ${rgb[2]}
+            )`;
+        rgb = rainbowTransition(rgb);
+    } else {
+        this.style.backgroundColor = "darkgrey";
+    }
+}
+
+
+
+function rainbowTransition(rgb) {
+    let [red, green, blue] = rgb;
+    // red -> yellow
+    if (red === 255 && green < 255 && blue === 0) {
+        (green >= 255 - transitionInterval) ? green = 255 : green += transitionInterval;         
+    }
+    // yellow -> green
+    else if (red > 0 && red <= 255 && green === 255 && blue === 0) {
+        (red <= transitionInterval) ? red = 0 : red -= transitionInterval;
+    }
+    // green -> aqua
+    else if (blue < 255 && red === 0 && green === 255 && blue >= 0) {
+        (blue >= 255 - transitionInterval) ? blue = 255 : blue += transitionInterval;
+    }
+    // aqua -> blue
+    else if (green > 0 && red === 0 && green <= 255 && blue <= 255) {
+        (green <= transitionInterval) ? green = 0 : green -= transitionInterval;
+    }
+    // blue -> fuschia
+    else if (red < 255 && red >= 0 && green === 0 && blue === 255) {
+        (red >= 255 - transitionInterval) ? red = 255 : red += transitionInterval;
+    }
+    // fuschia -> red
+    else if (red === 255 && green === 0 && blue <= 255) {
+        (blue <= transitionInterval) ? blue = 0 : blue -= transitionInterval;
+    }
+    rgb = [red, green, blue];
+    return rgb;
 }
 
 function unhover() {
@@ -64,6 +128,7 @@ function resetSketch() {
         alert("You cannot have more than 100 squares per side!");
         return;
     }
+    rgb = [255, 0, 0];
     height = length;
     buildSquares(length, height, pxLength);
 }
@@ -80,4 +145,16 @@ function toggleBorders() {
         });
         borders = true;
     }
+}
+
+function toggleRainbow() {
+    if (rainbow === true) {
+        rainbow = false;
+    } else {
+        rainbow = true;
+    }
+}
+
+function togglesketch() {
+    (sketch) ? sketch = false : sketch = true;
 }
